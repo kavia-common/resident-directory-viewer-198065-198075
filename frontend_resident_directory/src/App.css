@@ -1,104 +1,473 @@
-/* CSS Variables for Theme Management */
-:root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
-}
+/* Theme + component styles for the resident directory app (single CSS file approach). */
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+:root {
+  --primary: #3b82f6;
+  --success: #06b6d4;
+
+  --bg: #f9fafb;
+  --surface: #ffffff;
+  --text: #111827;
+  --muted: #64748b;
+  --border: #e5e7eb;
+
+  --shadow: 0 10px 20px rgba(17, 24, 39, 0.08);
+  --shadow-sm: 0 2px 10px rgba(17, 24, 39, 0.06);
+
+  --radius: 14px;
+  --radius-sm: 10px;
+
+  --focus: 0 0 0 3px rgba(59, 130, 246, 0.35);
 }
 
 .App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background: var(--bg);
+  color: var(--text);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.TopBar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgba(249, 250, 251, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.TopBar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px 20px;
 }
 
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
+.TopBar-title {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.TopBar-subtitle {
+  margin: 6px 0 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.Page {
+  padding: 22px 0 40px 0;
+}
+
+.Page-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* SearchBar */
+.SearchBar {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.SearchBar-label {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.SearchBar-inputWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.SearchBar-icon {
+  color: var(--muted);
+  font-size: 14px;
+  padding-left: 2px;
+}
+
+.SearchBar-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  color: var(--text);
+  background: transparent;
+}
+
+.SearchBar-input::placeholder {
+  color: rgba(100, 116, 139, 0.75);
+}
+
+.SearchBar-clear {
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 999px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.SearchBar-clear:focus {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+.ResultsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px 2px 10px 2px;
+}
+
+.ResultsCount {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Grid + Cards */
+.Grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+@media (max-width: 980px) {
+  .Grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .Grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ResidentCard {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-align: left;
+
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  cursor: pointer;
+  padding: 14px 14px;
+  box-shadow: var(--shadow-sm);
+
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.ResidentCard:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+  border-color: rgba(59, 130, 246, 0.35);
+}
+
+.ResidentCard:focus {
+  outline: none;
+  box-shadow: var(--shadow), var(--focus);
+  border-color: rgba(59, 130, 246, 0.6);
+}
+
+.ResidentCard-avatarWrap {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.ResidentCard-avatar {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ResidentCard-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ResidentCard-nameRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ResidentCard-name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ResidentCard-meta {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.ResidentCard-contact {
+  flex: 0 0 auto;
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  background: rgba(6, 182, 212, 0.12);
+  color: #0f172a;
+  border-radius: 999px;
+  padding: 8px 10px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.ResidentCard-contact:focus {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+/* Empty state */
+.EmptyState {
+  margin-top: 18px;
+  background: var(--surface);
+  border: 1px dashed rgba(100, 116, 139, 0.35);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+.EmptyState-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.EmptyState-body {
+  margin: 8px 0 16px 0;
+  color: var(--muted);
+}
+
+/* Buttons */
+.Btn {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
-}
+  gap: 10px;
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
-}
-
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  text-decoration: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+  font-size: 14px;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+.Btn:focus {
+  outline: none;
+  box-shadow: var(--focus);
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+.BtnPrimary {
+  background: var(--primary);
+  color: #fff;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.BtnPrimary:hover {
+  filter: brightness(0.98);
+}
+
+.BtnSecondary {
+  background: rgba(6, 182, 212, 0.12);
+  border-color: rgba(6, 182, 212, 0.35);
+  color: #0f172a;
+}
+
+/* Modal */
+.ModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 50;
+}
+
+.ModalPanel {
+  width: min(720px, 100%);
+  max-height: min(78vh, 720px);
+  overflow: auto;
+
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow);
+}
+
+.ModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 18px 12px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ModalTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.ModalSubtitle {
+  margin: 6px 0 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.ModalClose {
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.ModalClose:focus {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+.ModalBody {
+  padding: 16px 18px;
+}
+
+.ModalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 18px 18px 18px;
+  border-top: 1px solid var(--border);
+}
+
+/* Detail layout */
+.ResidentDetailTop {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+@media (max-width: 520px) {
+  .ResidentDetailTop {
+    grid-template-columns: 1fr;
   }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
-  }
+.ResidentDetail-avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.ResidentDetailFacts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.FactRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  background: rgba(249, 250, 251, 0.7);
+}
+
+.FactLabel {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.FactValue {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.FactLink {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.FactLink:hover {
+  text-decoration: underline;
+}
+
+.Section {
+  margin-top: 16px;
+}
+
+.SectionTitle {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.TagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.Tag {
+  background: rgba(59, 130, 246, 0.12);
+  color: #0f172a;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 999px;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.Notes {
+  margin: 0;
+  color: #0f172a;
+  line-height: 1.5;
+}
+
+.Muted {
+  margin: 0;
+  color: var(--muted);
 }
